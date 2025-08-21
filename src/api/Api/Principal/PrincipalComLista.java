@@ -23,7 +23,6 @@ public class PrincipalComLista {
         ArrayList<String> buscaArtistas = new ArrayList<>();
         buscaArtistas.add("Cauã de Paula");
         buscaArtistas.add("Ana Luisa");
-        buscaArtistas.add("Adam Sandler");
 
         Collections.sort(buscaArtistas);
 
