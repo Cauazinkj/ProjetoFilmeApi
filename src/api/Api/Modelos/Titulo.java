@@ -1,5 +1,6 @@
 package api.Api.Modelos;
 
+import api.Api.Exception.ErroDeConvercaoDeAnoException;
 import com.google.gson.annotations.SerializedName;
 
 public class Titulo implements Comparable<Titulo> {
@@ -17,8 +18,12 @@ public class Titulo implements Comparable<Titulo> {
 
     public Titulo(TituloOmdb meuTituloOmdb) {
         this.nome = meuTituloOmdb.title();
+
+        if(meuTituloOmdb.year().length() > 4){
+            throw new ErroDeConvercaoDeAnoException("Não consegui converter o ano. Porque tem mais de 4 caracteres.");
+        }
         this.anoDeLancamento = Integer.valueOf(meuTituloOmdb.year());
-        this.duracaoEmMinutos = Integer.valueOf(meuTituloOmdb.runtime().substring(0, 2));
+        this.duracaoEmMinutos = Integer.valueOf(meuTituloOmdb.runtime().replace(" min", ""));
     }
 
     public String getNome() {
@@ -58,8 +63,8 @@ public class Titulo implements Comparable<Titulo> {
     }
 
     public void exibeFichaTecnica(){
-        System.out.println("Nome do filme: " + nome);
-        System.out.println("Ano de lançamento: " + anoDeLancamento);
+        System.out.println("Nome do filme: " + this.getNome());
+        System.out.println("Ano de lançamento: " + this.getAnoDeLancamento());
     }
 
     public void avalia(double nota){
@@ -75,10 +80,9 @@ public class Titulo implements Comparable<Titulo> {
     @Override
     public String toString() {
         return "Titulo{" +
-                "nome='" + nome + '\'' +
-                ", anoDeLancamento=" + anoDeLancamento +
-                ", duracaoEmMinutos= " + duracaoEmMinutos +
-                '}';
+                "nome='" + this.getNome() + '\'' +
+                ", anoDeLancamento=" + this.getAnoDeLancamento() +
+                ", duracaoEmMinutos=" + this.getDuracaoEmMinutos() +'}';
     }
 
     @Override
